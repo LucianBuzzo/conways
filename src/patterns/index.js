@@ -1,3 +1,5 @@
+export { block } from './block'
 export { glider } from './glider'
+export { gliderEater } from './gliderEater'
 export { gliderGun } from './gliderGun'
 export * from './utils'

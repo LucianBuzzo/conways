@@ -892,8 +892,6 @@ function reset_settings () {
    * @param {string=} title
    */
 function setup_pattern (result, pattern_id) {
-  console.log({ result })
-
   stop(function () {
     if (pattern_id && !result.title) {
       result.title = pattern_id
@@ -901,16 +899,9 @@ function setup_pattern (result, pattern_id) {
 
     life.clear_pattern()
 
-    console.log({
-      bounds,
-      result
-    })
-
     var bounds = life.get_bounds(result.field_x, result.field_y)
     life.make_center(result.field_x, result.field_y, bounds)
     life.setup_field(result.field_x, result.field_y, bounds)
-
-    console.log(life)
 
     life.save_rewind_state()
 
