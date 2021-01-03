@@ -1,5 +1,8 @@
 export { block } from './block'
+export { buckaroo } from './buckaroo'
 export { glider } from './glider'
 export { gliderEater } from './gliderEater'
 export { gliderGun } from './gliderGun'
+export { pipSquirter1 } from './pipSquirter1'
+export { snark } from './snark'
 export * from './utils'

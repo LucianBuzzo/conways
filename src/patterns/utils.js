@@ -149,5 +149,7 @@ export class Group {
     this.field_y = result.field_y
     this.height = result.height
     this.width = result.width
+
+    return this
   }
 }
