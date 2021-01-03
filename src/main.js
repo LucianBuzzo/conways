@@ -73,17 +73,24 @@ const makeGrid = (gate1, gate2, gate3, gate4) => {
   return _grid
 }
 
+const andReflector = (function () {
+  const _aR = new Group()
+    .add(flipX(rotate90(buckaroo())))
+
+  let count = 0
+  while (count < 1) {
+    count++
+    _aR.step()
+  }
+
+  return _aR
+}())
+
 const andGate = new Group()
   .add(makeGrid(true, true, true))
-  .add(flipX(rotate90(buckaroo())), 91, 87)
-/*
-  .add(combine(
-    translate(rotate270(gliderEater()), 0, 86),
-    rotate270(gliderGun()),
-    40,
-    0
-  ), 100, 80)
-*/
+  .add(andReflector, 100, 59 + 15)
+  .add(new Group().add(rotate270(gliderGun())).step(), 150, 72)
+  .add(rotate270(gliderEater()), 103, 137)
 
 const emitter1 = translate(gliderGun(), 0, 13)
 const emitter2 = translate(gliderGun(), 0, 13)
@@ -97,7 +104,7 @@ const corner = new Group()
   .add(rotate90(buckaroo()), 91, 87)
 
 const t = new Group()
-//  .add(emitterGrid, 0, GRID_SIZE / 2)
+  .add(emitterGrid, 0, GRID_SIZE / 2)
   .add(emitterGrid, GRID_SIZE / 2, 0)
   .add(corner, GRID_SIZE, GRID_SIZE / 2)
   .add(andGate, GRID_SIZE / 2, GRID_SIZE)
@@ -110,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     engine.load(t, 'minerva1')
 
+    //    engine.setGeneration(160)
     engine.run()
   }, 100)
 }, false)

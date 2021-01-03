@@ -242,14 +242,6 @@ function hide_overlay () {
   document.body.style.overflow = 'hidden'
 }
 
-/**
-   * @param {number=} fps
-   */
-function lazy_redraw (node) {
-  if (!running || max_fps < 15) {
-    drawer.redraw(node)
-  }
-}
 
 function set_text (obj, text) {
   obj.textContent = String(text)
@@ -346,23 +338,6 @@ function http_get_multiple (urls, ondone, onerror) {
       }
     )
   })
-}
-
-/*
-   * The mousemove event which allows moving around
-   */
-function do_field_move (e) {
-  if (last_mouse_x !== null) {
-    let dx = Math.round(e.clientX - last_mouse_x)
-    let dy = Math.round(e.clientY - last_mouse_y)
-
-    drawer.move(dx, dy)
-
-    // lazy_redraw(life.root);
-
-    last_mouse_x += dx
-    last_mouse_y += dy
-  }
 }
 
 /*
@@ -498,6 +473,9 @@ export class Engine {
     drawer.init(document.body)
     const update_hud = this.update_hud.bind(this)
     const step = this.step.bind(this)
+    const lazy_redraw = this.lazy_redraw.bind(this)
+    const do_field_move = this.do_field_move.bind(this)
+    const run = this.run.bind(this)
 
     init_ui()
 
@@ -546,7 +524,7 @@ export class Engine {
         if (running) {
           stop()
         } else {
-          this.run()
+          run()
         }
       }
 
@@ -881,6 +859,12 @@ export class Engine {
     }
   }
 
+  lazy_redraw (node) {
+    if (!running || max_fps < 15) {
+      this.drawer.redraw(node)
+    }
+  }
+
   run() {
     var n = 0
 
@@ -962,6 +946,41 @@ export class Engine {
 
     if (time < 3) {
       set_text($('label_fps'), '> 9000')
+    }
+  }
+
+  setGeneration (gen) {
+    let time = Date.now()
+    let count = 0
+
+    if (this.life.generation === 0) {
+      this.life.save_rewind_state()
+    }
+
+    while (count < gen) {
+      count++
+      this.life.next_generation(true)
+    }
+
+    this.drawer.redraw(this.life.root)
+
+    this.update_hud(1000 / (Date.now() - time))
+  }
+
+  /*
+   * The mousemove event which allows moving around
+   */
+  do_field_move (e) {
+    if (last_mouse_x !== null) {
+      let dx = Math.round(e.clientX - last_mouse_x)
+      let dy = Math.round(e.clientY - last_mouse_y)
+
+      this.drawer.move(dx, dy)
+
+      // lazy_redraw(life.root);
+
+      last_mouse_x += dx
+      last_mouse_y += dy
     }
   }
 
