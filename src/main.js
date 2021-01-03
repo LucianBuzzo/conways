@@ -25,12 +25,12 @@ import {
  * - A buckaroo is able to bounce a glider every 15 squares diagonally
  * - Grids needs to be in multiples of 15??
  */
+const GRID_SIZE = 180
+const GATE_SIZE = 4
+
 const glider90turn = new Group()
   .add(translate(gliderGun(), 0, 13))
   .add(rotate90(buckaroo()), 37, 33)
-
-const GRID_SIZE = 180
-const GATE_SIZE = 4
 
 const makeGate = () => {
   const _gate = new Group()
@@ -105,7 +105,11 @@ const t = new Group()
 document.addEventListener('DOMContentLoaded', () => {
   const engine = new Engine()
 
-  engine.load(t, 'minerva1')
+  setTimeout(() => {
+    engine.init()
 
-  engine.run()
+    engine.load(t, 'minerva1')
+
+    engine.run()
+  }, 100)
 }, false)
