@@ -5,6 +5,54 @@ import {
   formats
 } from '../engine/formats'
 
+import {
+  block
+} from './block'
+
+export const GRID_SIZE = 180
+export const GATE_SIZE = 4
+
+const makeGate = () => {
+  const _gate = new Group()
+
+  _gate.add(block(), GATE_SIZE * 2, 0)
+  _gate.add(block(), 0, GATE_SIZE * 2)
+
+  _gate.add(block(), GATE_SIZE * 3, GATE_SIZE)
+  _gate.add(block(), GATE_SIZE, GATE_SIZE * 3)
+
+  _gate.add(block(), GATE_SIZE * 4, GATE_SIZE * 2)
+  _gate.add(block(), GATE_SIZE * 2, GATE_SIZE * 4)
+
+  return _gate
+}
+
+export const makeGrid = (gate1, gate2, gate3, gate4) => {
+  const _grid = new Group()
+  _grid.add(block(), 0, GRID_SIZE / 2)
+  _grid.add(block(), GRID_SIZE / 2, 0)
+  _grid.add(block(), GRID_SIZE, GRID_SIZE / 2)
+  _grid.add(block(), GRID_SIZE / 2, GRID_SIZE)
+
+  if (gate1) {
+    _grid.add(makeGate(), GRID_SIZE / 4 - GATE_SIZE, GRID_SIZE / 4 - GATE_SIZE)
+  }
+
+  if (gate2) {
+    _grid.add(flipX(makeGate()), GRID_SIZE * 0.75 - GATE_SIZE * 2.5, GRID_SIZE / 4 - GATE_SIZE * 0.5)
+  }
+
+  if (gate3) {
+    _grid.add(makeGate(), (GRID_SIZE * 0.75) - GATE_SIZE * 3, (GRID_SIZE * 0.75) - GATE_SIZE * 3)
+  }
+
+  if (gate4) {
+    _grid.add(flipX(makeGate()), GRID_SIZE * 0.25 - GATE_SIZE * 0.5, GRID_SIZE * 0.75 - GATE_SIZE * 2.5)
+  }
+
+  return _grid
+}
+
 export const combine = (p1, p2, xOffset = 0, yOffset = 0) => {
   const fieldX = new Int32Array(p1.field_x.length + p2.field_x.length)
   fieldX.set(p1.field_x)
@@ -160,7 +208,7 @@ export class Group {
     return this
   }
 
-  step () {
+  step (generations = 1) {
     const life = new LifeUniverse()
     var bounds = life.get_bounds(this.field_x, this.field_y)
     life.make_center(this.field_x, this.field_y, bounds)
@@ -171,7 +219,12 @@ export class Group {
       life.set_rules(1 << 2 | 1 << 3, 1 << 3)
     }
 
-    life.next_generation(true)
+    let count = 0
+
+    while (count < generations) {
+      count++
+      life.next_generation(true)
+    }
 
     // TODO: this is gross, find a better way of turning life engines into
     // pattern objects

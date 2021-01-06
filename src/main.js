@@ -15,8 +15,21 @@ import {
   Group,
   pipSquirter1,
   buckaroo,
-  snark
+  snark,
+  makeGrid,
+  GATE_SIZE,
+  GRID_SIZE
 } from './patterns'
+
+import {
+  orGate
+} from './gates/or'
+import {
+  andGate
+} from './gates/and'
+import {
+  notGate
+} from './gates/not'
 
 /**
  * NOTES
@@ -25,75 +38,10 @@ import {
  * - A buckaroo is able to bounce a glider every 15 squares diagonally
  * - Grids needs to be in multiples of 15??
  */
-const GRID_SIZE = 180
-const GATE_SIZE = 4
 
 const glider90turn = new Group()
   .add(translate(gliderGun(), 0, 13))
   .add(rotate90(buckaroo()), 37, 33)
-
-const makeGate = () => {
-  const _gate = new Group()
-
-  _gate.add(block(), GATE_SIZE * 2, 0)
-  _gate.add(block(), 0, GATE_SIZE * 2)
-
-  _gate.add(block(), GATE_SIZE * 3, GATE_SIZE)
-  _gate.add(block(), GATE_SIZE, GATE_SIZE * 3)
-
-  _gate.add(block(), GATE_SIZE * 4, GATE_SIZE * 2)
-  _gate.add(block(), GATE_SIZE * 2, GATE_SIZE * 4)
-
-  return _gate
-}
-
-const makeGrid = (gate1, gate2, gate3, gate4) => {
-  const _grid = new Group()
-  _grid.add(block(), 0, GRID_SIZE / 2)
-  _grid.add(block(), GRID_SIZE / 2, 0)
-  _grid.add(block(), GRID_SIZE, GRID_SIZE / 2)
-  _grid.add(block(), GRID_SIZE / 2, GRID_SIZE)
-
-  if (gate1) {
-    _grid.add(makeGate(), GRID_SIZE / 4 - GATE_SIZE, GRID_SIZE / 4 - GATE_SIZE)
-  }
-
-  if (gate2) {
-    _grid.add(flipX(makeGate()), GRID_SIZE * 0.75 - GATE_SIZE * 2.5, GRID_SIZE / 4 - GATE_SIZE * 0.5)
-  }
-
-  if (gate3) {
-    _grid.add(makeGate(), (GRID_SIZE * 0.75) - GATE_SIZE * 3, (GRID_SIZE * 0.75) - GATE_SIZE * 3)
-  }
-
-  if (gate4) {
-    _grid.add(flipX(makeGate()), GRID_SIZE * 0.25 - GATE_SIZE * 0.5, GRID_SIZE * 0.75 - GATE_SIZE * 2.5)
-  }
-
-  return _grid
-}
-
-const andReflector = (function () {
-  const _aR = new Group()
-    .add(flipX(rotate90(buckaroo())))
-
-  let count = 0
-  while (count < 1) {
-    count++
-    _aR.step()
-  }
-
-  return _aR
-}())
-
-const andGate = new Group()
-  .add(makeGrid(true, true, true))
-  .add(andReflector, 100, 59 + 15)
-  .add(new Group().add(rotate270(gliderGun())).step(), 150, 72)
-  .add(rotate270(gliderEater()), 103, 137)
-
-const emitter1 = translate(gliderGun(), 0, 13)
-const emitter2 = translate(gliderGun(), 0, 13)
 
 const emitterGrid = new Group()
   .add(makeGrid(false, false, true))
@@ -108,6 +56,13 @@ const t = new Group()
   .add(emitterGrid, GRID_SIZE / 2, 0)
   .add(corner, GRID_SIZE, GRID_SIZE / 2)
   .add(andGate, GRID_SIZE / 2, GRID_SIZE)
+//  .add(corner, GRID_SIZE, GRID_SIZE * 1.5)
+
+const t1 = new Group()
+  .add(emitterGrid, 0, GRID_SIZE / 2)
+  .add(emitterGrid, GRID_SIZE / 2, 0)
+  .add(corner, GRID_SIZE, GRID_SIZE / 2)
+  .add(orGate, GRID_SIZE / 2, GRID_SIZE)
 
 document.addEventListener('DOMContentLoaded', () => {
   const engine = new Engine()
@@ -115,9 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     engine.init()
 
-    engine.load(t, 'minerva1')
+    engine.load(t1, 'minerva1')
 
-    //    engine.setGeneration(160)
-    engine.run()
+    engine.setGeneration(628)
+    // engine.run()
   }, 100)
 }, false)

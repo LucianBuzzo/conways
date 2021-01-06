@@ -475,6 +475,7 @@ export class Engine {
     const step = this.step.bind(this)
     const lazy_redraw = this.lazy_redraw.bind(this)
     const do_field_move = this.do_field_move.bind(this)
+    const fit_pattern = this.fit_pattern.bind(this)
     const run = this.run.bind(this)
 
     init_ui()
