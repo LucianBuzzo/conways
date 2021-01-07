@@ -15,14 +15,14 @@ export const GATE_SIZE = 4
 const makeGate = () => {
   const _gate = new Group()
 
-  _gate.add(block(), GATE_SIZE * 2, 0)
-  _gate.add(block(), 0, GATE_SIZE * 2)
+//  _gate.add(block(), GATE_SIZE * 2, 0)
+//  _gate.add(block(), 0, GATE_SIZE * 2)
+//
+//  _gate.add(block(), GATE_SIZE * 3, GATE_SIZE)
+//  _gate.add(block(), GATE_SIZE, GATE_SIZE * 3)
 
-  _gate.add(block(), GATE_SIZE * 3, GATE_SIZE)
-  _gate.add(block(), GATE_SIZE, GATE_SIZE * 3)
-
-  _gate.add(block(), GATE_SIZE * 4, GATE_SIZE * 2)
-  _gate.add(block(), GATE_SIZE * 2, GATE_SIZE * 4)
+//  _gate.add(block(), GATE_SIZE * 4, GATE_SIZE * 2)
+//  _gate.add(block(), GATE_SIZE * 2, GATE_SIZE * 4)
 
   return _gate
 }

@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     engine.load(t1, 'minerva1')
 
-    engine.setGeneration(628)
+    engine.setGeneration(269)
     // engine.run()
   }, 100)
 }, false)
