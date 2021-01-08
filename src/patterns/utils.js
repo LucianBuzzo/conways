@@ -8,6 +8,9 @@ import {
 import {
   block
 } from './block'
+import {
+  buckaroo
+} from './buckaroo'
 
 export const GRID_SIZE = 180
 export const GATE_SIZE = 4
@@ -239,3 +242,8 @@ export class Group {
     return this
   }
 }
+
+export const corner = new Group()
+  .add(makeGrid(true, false, false, true))
+  .add(rotate90(buckaroo()), 91, 87)
+

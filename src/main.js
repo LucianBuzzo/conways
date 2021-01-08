@@ -18,7 +18,8 @@ import {
   snark,
   makeGrid,
   GATE_SIZE,
-  GRID_SIZE
+  GRID_SIZE,
+  corner
 } from './patterns'
 
 import {
@@ -47,10 +48,6 @@ const emitterGrid = new Group()
   .add(makeGrid(false, false, true))
   .add(translate(gliderGun(), 69, 82))
 
-const corner = new Group()
-  .add(makeGrid(true, false, false, true))
-  .add(rotate90(buckaroo()), 91, 87)
-
 const t = new Group()
   .add(emitterGrid, 0, GRID_SIZE / 2)
   .add(emitterGrid, GRID_SIZE / 2, 0)
@@ -61,8 +58,7 @@ const t = new Group()
 const t1 = new Group()
   .add(emitterGrid, 0, GRID_SIZE / 2)
   .add(emitterGrid, GRID_SIZE / 2, 0)
-  .add(corner, GRID_SIZE, GRID_SIZE / 2)
-  .add(orGate, GRID_SIZE / 2, GRID_SIZE)
+  .add(orGate, GRID_SIZE / 2, GRID_SIZE / 2)
 
 document.addEventListener('DOMContentLoaded', () => {
   const engine = new Engine()
@@ -72,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     engine.load(t1, 'minerva1')
 
-    engine.setGeneration(269)
+    //engine.setGeneration(269)
     // engine.run()
   }, 100)
 }, false)
