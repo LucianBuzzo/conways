@@ -211,6 +211,33 @@ export class Group {
     return this
   }
 
+  addTile (tile, x, y) {
+    /*
+    0,0: 0,0
+    0,1: 90, -90
+    1,0: 90, 90
+    1,1: 180, 0
+    2,0: 180, 180
+
+    (x, y) => 90 * x - 90 * y, 90 * x - 90 * y
+    */
+
+
+    const g = GRID_SIZE / 2
+
+
+    const xCoord = (g * x) + (g * y)
+    const yCoord = (g * x) - (g * y)
+
+    console.log({
+      xCoord,
+      yCoord
+    })
+
+    this.add(tile, xCoord, yCoord)
+    return this
+  }
+
   step (generations = 1) {
     const life = new LifeUniverse()
     var bounds = life.get_bounds(this.field_x, this.field_y)

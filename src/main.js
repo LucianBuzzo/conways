@@ -60,13 +60,20 @@ const t1 = new Group()
   .add(emitterGrid, GRID_SIZE / 2, 0)
   .add(orGate, GRID_SIZE / 2, GRID_SIZE / 2)
 
+const t2 = new Group()
+  .addTile(emitterGrid, 0, 0)
+  .addTile(emitterGrid, 0, 1)
+  .addTile(emitterGrid, 1, 0)
+  .addTile(emitterGrid, 1, 1)
+  .addTile(emitterGrid, 2, 0)
+
 document.addEventListener('DOMContentLoaded', () => {
   const engine = new Engine()
 
   setTimeout(() => {
     engine.init()
 
-    engine.load(t1, 'minerva1')
+    engine.load(t, 'minerva1')
 
     //engine.setGeneration(269)
     // engine.run()
